@@ -6,6 +6,7 @@ import BackToTop from "./components/BackToTop";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Foooter from "./components/Footer";
+import Blog from "./components/Blog";
 
 // Styled 404 Page
 const NotFound = () => (
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/blogs" element={<Blog />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <BackToTop/>

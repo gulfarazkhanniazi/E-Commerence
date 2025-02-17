@@ -9,7 +9,10 @@ export default function FooterComponent() {
   };
 
   return (
-    <div className="bg-gray-900">
+    <div className="bg-gray-800">
+      <div className=" flex flex-col gap-1">
+      <hr />
+      <hr /></div>
       <Footer bgDark container>
         <div className="w-full">
           <div className="footer mt-8">
