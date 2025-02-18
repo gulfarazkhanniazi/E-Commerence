@@ -26,7 +26,7 @@ export default function FooterComponent() {
               <h2 className="text-3xl text-white mt-6">Gul Faraz Khan</h2>
             </div>
 
-            <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-6 w-full sm:w-2/3">
+            <div className="w-full flex gap-4 flex-col md:flex-row">
               <div className="w-full sm:w-1/3">
                 <Footer.Title
                   title="Quick Links"

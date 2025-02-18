@@ -17,6 +17,8 @@ export default function Blogs() {
               <div className="card__content">
                 <p className="card__title">Card Title {id}</p>
                 <p className="card__description">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
               </div>
@@ -93,6 +95,10 @@ const StyledWrapper = styled.div`
     font-size: 1.2rem;
     color: #d1d5db;
     line-height: 1.6;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
 
   /* Responsive Design */
