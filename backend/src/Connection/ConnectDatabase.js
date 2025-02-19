@@ -4,12 +4,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Ensure Firebase config is properly parsed from environment variables
+// Initialize Firebase
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const userCollection = collection(db, 'E-commerence');
+// Collections
+export const usersCollection = collection(db, 'Users'); // Stores user data
+export const itemsCollection = collection(db, 'Items'); // Stores item data
 
-export default userCollection;
+export default db;

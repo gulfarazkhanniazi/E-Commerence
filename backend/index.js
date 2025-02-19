@@ -1,17 +1,19 @@
 import express from 'express'
 import cors from 'cors'
+import dotenv from 'dotenv'
+import UserRoutes from './src/Routes/UserRoutes.js'
+import cookieParser from 'cookie-parser';
+
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
+
+dotenv.config();
 
 app.use(cors());
 app.use(express.json());
-// app.use('/user/', UserRoutes)
+app.use(cookieParser());
 
-app.post('/user', async (req, res) => {
-    const { name, email, password } = req.body;
-    res.send(name + ' ' + email + ' ' + password);
-    
-});
+app.use('/user', UserRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
