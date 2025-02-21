@@ -54,7 +54,11 @@ router.post('/signup', async (req, res) => {
             maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
         });        
 
-        res.json({ success: true, message: 'User created successfully' });
+        res.json({ 
+            success: true, 
+            message: 'User created successfully',
+            user: { id: userRef.id, name, email } // Send user data
+        });
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -89,12 +93,17 @@ router.post('/login', loginLimiter, async (req, res) => {
             maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
         });        
 
-        res.json({ success: true, message: "Login successful" });
+        res.json({ 
+            success: true, 
+            message: "Login successful",
+            user: { id: userDoc.id, name: userData.name, email: userData.email } // Send user data
+        });
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 });
+
 
 // Logout Route
 router.post('/logout', (req, res) => {

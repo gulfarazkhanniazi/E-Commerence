@@ -1,13 +1,35 @@
-/* eslint-disable no-unused-vars */
-import { Button, Navbar } from "flowbite-react";
+import { Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import LoginSignup from "./Login";
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from'../Redux/UserState';
 
 export default function Navbaar() {
   const [isOpen, setIsOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+
+  const currentUser = useSelector((state) => state.user); // Get user authentication state
+  const dispatch = useDispatch(); // Get dispatch function for user actions
+
+  const handleOnLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/user/logout", {
+        method: "POST",
+        credentials: "include", // Ensures cookies are cleared
+      });
+  
+      if (!response.ok) {
+        throw new Error("Logout failed");
+      }
+  
+      dispatch(logout()); // Clear user from Redux state
+    } catch (error) {
+      console.error("Logout error:", error.message);
+    }
+  };
+  
 
   // Function to scroll to top smoothly
   const scrollToTop = () => {
@@ -57,9 +79,18 @@ export default function Navbaar() {
           <ShoppingCart size={28} className="text-white" />
           <span className="tooltip">Cart Items</span>
         </Link>
+        {
+          currentUser?.user !== null ?
+          (
+            <button className="button" onClick={handleOnLogout}>
+              <span>Log out</span>
+            </button>
+          ) : (
         <button className="button" onClick={() => setLoginOpen(true)}>
-          <span>Log In</span>
-        </button>
+        <span>Log In</span>
+      </button>
+          )
+        }
         {
           loginOpen &&
           <LoginSignup loginOpen={loginOpen} setLoginOpen={setLoginOpen} />
