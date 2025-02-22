@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function Blog() {
+  const { slug } = useParams(); // Extract the slug from the URL
+  console.log(slug);
   return (
     <div>
       <main className="pt-24 mt-10 pb-16 lg:pt-16 lg:pb-24S dark:bg-gray-900 antialiased bg-gray-800 text-gray-300">

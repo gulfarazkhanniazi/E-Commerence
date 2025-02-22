@@ -4,6 +4,7 @@ import { useState } from "react";
 import SignupModal from "./Signup";
 import { useDispatch } from "react-redux";
 import { login } from "../Redux/UserState";
+import { toggleAdmin } from '../Redux/AdminState'
 
 export default function LoginSignup({ loginOpen, setLoginOpen }) {
   const [isSignup, setIsSignup] = useState(false);
@@ -40,6 +41,11 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
       }
 
       dispatch(login(data.user));
+      console.log(data.user);
+      
+      if(data.user.isAdmin === "true") {
+        dispatch(toggleAdmin())
+      }
       setLoginOpen(false);
     } catch (err) {
       setError(err.message);

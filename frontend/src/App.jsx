@@ -9,6 +9,8 @@ import Foooter from "./components/Footer";
 import Blog from "./components/Blog";
 import Blogs from "./pages/Blogs";
 import {Toaster} from 'react-hot-toast'
+import ShoppindItem from "./components/ShoppingItem";
+// import { useSelector } from "react-redux";
 
 // Styled 404 Page
 const NotFound = () => (
@@ -18,6 +20,10 @@ const NotFound = () => (
 );
 
 function App() {
+
+  // const admin = useSelector((state)=>state.isAdmin);
+  // console.log(admin);
+  
   return (
     <Router>
       <Toaster position="top-center" />
@@ -26,6 +32,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/item/:slug" element={<ShoppindItem />} />
         <Route path="/blogs/:slug" element={<Blog />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

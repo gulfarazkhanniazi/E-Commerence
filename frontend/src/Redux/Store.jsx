@@ -1,10 +1,34 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./UserState";
+import adminReducer from "./AdminState";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // Uses localStorage by default
+import { combineReducers } from "redux";
 
-const store = configureStore({
-  reducer: {
-    user: userReducer, // User authentication state
-  },
+// Combine reducers (in case you add more in the future)
+const rootReducer = combineReducers({
+  user: userReducer, // User authentication state
+  isAdmin: adminReducer, // Admin authentication state
 });
+
+// Configure Redux Persist
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Create Redux Store
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Avoids errors with non-serializable values
+    }),
+});
+
+// Persistor to rehydrate state
+export const persistor = persistStore(store);
 
 export default store;

@@ -32,16 +32,19 @@ export default function SignupModal({ setIsSignup, setLoginOpen }) {
 
     if (!name ||!email ||!password ||!confirmPassword) {
       setError("All fields are required.");
+      setLoading(false)
       return;
     }
     
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
+      setLoading(false)
       return;
     }
 
     if (password.length < 6) {
       setError("Password must be at least 6 characters long.");
+      setLoading(false)
       return;
     }
 
