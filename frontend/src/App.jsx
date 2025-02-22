@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import Foooter from "./components/Footer";
 import Blog from "./components/Blog";
 import Blogs from "./pages/Blogs";
+import {Toaster} from 'react-hot-toast'
 
 // Styled 404 Page
 const NotFound = () => (
@@ -19,6 +20,7 @@ const NotFound = () => (
 function App() {
   return (
     <Router>
+      <Toaster position="top-center" />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

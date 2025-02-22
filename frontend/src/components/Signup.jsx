@@ -9,21 +9,46 @@ export default function SignupModal({ setIsSignup, setLoginOpen }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  // Name Validation (Allow spaces but not at the start)
+  const handleNameChange = (e) => {
+    let value = e.target.value;
+    if (value.startsWith(" ")) return; // Prevent leading spaces
+    setName(value);
+  };
+
+  // Email Validation (No spaces at all)
+  const handleEmailChange = (e) => {
+    let value = e.target.value.replace(/\s/g, ""); // Remove spaces if pasted
+    setEmail(value);
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError(null);
 
+    if (!name ||!email ||!password ||!confirmPassword) {
+      setError("All fields are required.");
+      return;
+    }
+    
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
       return;
     }
 
     try {
       const response = await fetch("http://localhost:3000/user/signup", {
         method: "POST",
-        credentials: "include", // Ensures JWT is stored in cookies
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -36,11 +61,13 @@ export default function SignupModal({ setIsSignup, setLoginOpen }) {
         throw new Error(data.message || "Signup failed");
       }
 
-      dispatch(login(data.user)); // Update Redux store with new user
-      setIsSignup(false); // Switch to login after successful signup
-      setLoginOpen(false); // Close signup modal after successful signup
+      dispatch(login(data.user));
+      setIsSignup(false);
+      setLoginOpen(false);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,11 +88,11 @@ export default function SignupModal({ setIsSignup, setLoginOpen }) {
         <div className="w-full flex flex-col gap-2">
           <label className="font-semibold text-xs text-gray-400">Full Name</label>
           <input
-            placeholder="Name"
+            placeholder="John Doe"
             className="border rounded-lg px-3 py-2 text-sm w-full outline-none dark:border-gray-500 text-gray-900"
             required
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleNameChange}
           />
         </div>
 
@@ -78,7 +105,8 @@ export default function SignupModal({ setIsSignup, setLoginOpen }) {
             required
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
+            onKeyDown={(e) => e.key === " " && e.preventDefault()} // Prevent space typing
           />
         </div>
 
@@ -111,10 +139,9 @@ export default function SignupModal({ setIsSignup, setLoginOpen }) {
         {/* Signup Button */}
         <button
           type="submit"
+          disabled={loading}
           className="mt-5 py-1 px-8 bg-yellow-300 hover:bg-yellow-400 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg cursor-pointer select-none"
-        >
-          Sign Up
-        </button>
+        >{loading? "Loading..." : "Sign Up"}</button>
 
         {/* Toggle to Login */}
         <p

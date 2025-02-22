@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import UserRoutes from './src/Routes/UserRoutes.js';
+import EmailRoutes from './src/Routes/EmailRoutes.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/user', UserRoutes);
+app.use('/email', EmailRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

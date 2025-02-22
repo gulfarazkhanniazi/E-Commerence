@@ -7,13 +7,20 @@ import { login } from "../Redux/UserState";
 
 export default function LoginSignup({ loginOpen, setLoginOpen }) {
   const [isSignup, setIsSignup] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
+  const handleEmailChange = (e) => {
+    const value = e.target.value.replace(/\s/g, ""); // Remove spaces if pasted
+    setEmail(value);
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError(null);
 
     try {
@@ -30,23 +37,14 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
 
       if (!response.ok) {
         throw new Error(data.message || "Login failed");
-      } 
+      }
 
       dispatch(login(data.user));
       setLoginOpen(false);
-
-      const r = await fetch("http://localhost:3000/user/profile", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(),
-      });
-      console.log(r, r.data);
-      
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +62,8 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
                       Login to your Account
                     </p>
                     <span className="m-0 text-xs max-w-[90%] text-center text-[#8B8E98]">
-                      Get started with our app, just start section and enjoy experience.
+                      Get started with our app, just start section and enjoy
+                      experience.
                     </span>
                   </div>
 
@@ -73,20 +72,25 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
 
                   {/* Email Input */}
                   <div className="w-full flex flex-col gap-2">
-                    <label className="font-semibold text-xs text-gray-400">Email</label>
+                    <label className="font-semibold text-xs text-gray-400">
+                      Email
+                    </label>
                     <input
                       type="email"
-                      placeholder="E-mail"
+                      placeholder="example@email.com"
                       className="border rounded-lg px-3 py-2 mb-5 text-sm w-full outline-none dark:border-gray-500 text-gray-900"
                       required
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmailChange}
+                      onKeyDown={(e) => e.key === " " && e.preventDefault()} // Prevents space key from being typed
                     />
                   </div>
 
                   {/* Password Input */}
                   <div className="w-full flex flex-col gap-2">
-                    <label className="font-semibold text-xs text-gray-400">Password</label>
+                    <label className="font-semibold text-xs text-gray-400">
+                      Password
+                    </label>
                     <input
                       type="password"
                       placeholder="••••••••"
@@ -100,23 +104,25 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
                   {/* Login Button */}
                   <button
                     type="submit"
+                    disabled={loading}
                     className="py-1 px-8 bg-yellow-300 hover:bg-yellow-400 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg cursor-pointer select-none"
-                  >
-                    Login
-                  </button>
+                  >{loading? "Loading..." : "Login"}</button>
 
                   {/* Toggle to Signup */}
                   <p
                     className="text-center text-sm pt-2 cursor-pointer hover:underline"
                     onClick={() => setIsSignup(true)}
                   >
-                    Didn&apos;t have an account? <span className="text-blue-500 text-lg">Sign up</span>
+                    Didn&apos;t have an account?{" "}
+                    <span className="text-blue-500 text-lg">Sign up</span>
                   </p>
                 </div>
               </form>
             ) : (
-              <SignupModal setIsSignup={setIsSignup} setLoginOpen={setLoginOpen} />
-
+              <SignupModal
+                setIsSignup={setIsSignup}
+                setLoginOpen={setLoginOpen}
+              />
             )}
           </div>
         </div>
