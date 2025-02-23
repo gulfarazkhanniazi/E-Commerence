@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAdmin: false, // Initially, the user is not an admin
+  isAdmin: false, // Default: Not an admin
 };
 
 const adminSlice = createSlice({
-  name: "admin",
+  name: "isAdmin",
   initialState,
   reducers: {
     toggleAdmin: (state) => {
@@ -16,6 +16,4 @@ const adminSlice = createSlice({
 
 // Export actions
 export const { toggleAdmin } = adminSlice.actions;
-
-// Export reducer
 export default adminSlice.reducer;

@@ -11,7 +11,7 @@ export default function Blogs() {
             <div className="card">
               <img
                 className="w-full h-full"
-                src="https://flowbite.s3.amazonaws.com/typography-plugin/typography-image-1.png"
+                src="https://cdn.acowebs.com/wp-content/uploads/2019/02/Impact-of-eCommerce-On-Society.png"
                 alt=""
               />
               <div className="card__content">

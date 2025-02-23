@@ -10,6 +10,7 @@ import Blog from "./components/Blog";
 import Blogs from "./pages/Blogs";
 import {Toaster} from 'react-hot-toast'
 import ShoppindItem from "./components/ShoppingItem";
+import CartItems from "./components/CartItems";
 // import { useSelector } from "react-redux";
 
 // Styled 404 Page
@@ -21,8 +22,8 @@ const NotFound = () => (
 
 function App() {
 
-  // const admin = useSelector((state)=>state.isAdmin);
-  // console.log(admin);
+  // const user = useSelector((state)=>state.user);
+  // console.log(user);
   
   return (
     <Router>
@@ -32,6 +33,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/cart-items" element={<CartItems />} />
         <Route path="/item/:slug" element={<ShoppindItem />} />
         <Route path="/blogs/:slug" element={<Blog />} />
         <Route path="*" element={<NotFound />} />

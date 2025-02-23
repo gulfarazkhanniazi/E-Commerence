@@ -118,11 +118,11 @@ export default function Navbaar() {
 
       {/* Icons & Buttons */}
       <div className="flex gap-10 items-center">
-        <Link to="/cart" onClick={scrollToTop} className="tooltip-container">
+        <Link to="/cart-items" onClick={scrollToTop} className="tooltip-container">
           <ShoppingCart size={28} className="text-white" />
           <span className="tooltip">Cart Items</span>
         </Link>
-        {currentUser?.user !== null ? (
+        {currentUser !== null && currentUser.user !== null ? (
           <Dropdown className="bg-gray-800"
           label={
             <img
@@ -139,7 +139,7 @@ export default function Navbaar() {
           </Dropdown.Header>
           {
             isAdmin?.isAdmin === true && (
-              <Dropdown.Item icon={HiCog}>Admin Panel</Dropdown.Item>
+              <Dropdown.Item icon={HiCog} className="text-gray-200 hover:text-gray-800">Admin Panel</Dropdown.Item>
             )
           }
           <Dropdown.Item icon={HiViewGrid}>Dashboard</Dropdown.Item>

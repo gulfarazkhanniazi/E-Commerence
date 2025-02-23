@@ -39,9 +39,12 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
       if (!response.ok) {
         throw new Error(data.message || "Login failed");
       }
-
+      
+      if (!data.user) {
+        throw new Error("Invalid user data received.");
+      }
       dispatch(login(data.user));
-      console.log(data.user);
+      
       
       if(data.user.isAdmin === "true") {
         dispatch(toggleAdmin())

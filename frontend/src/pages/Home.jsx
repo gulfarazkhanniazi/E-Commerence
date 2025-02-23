@@ -5,7 +5,7 @@ import ExclusiveFeatures from "../components/FeaturesAndReviews";
 
 export default function Home() {
   return (
-    <div className="bg-gray-800 min-h-screen">
+    <div className="bg-gray-800 min-h-screen pt-16">
       <Carousal />
       <div className="container mx-auto p-4">
         <div className="flex flex-wrap justify-center gap-8">

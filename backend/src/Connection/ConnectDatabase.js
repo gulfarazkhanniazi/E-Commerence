@@ -11,6 +11,6 @@ const db = getFirestore(app);
 
 // Collections
 export const usersCollection = collection(db, 'Users'); // Stores user data
-export const itemsCollection = collection(db, 'Items'); // Stores item data
+export const BlogsCollection = collection(db, 'Blogs'); // Stores item data
 
 export default db;
