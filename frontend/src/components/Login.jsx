@@ -3,7 +3,7 @@ import { Modal } from "flowbite-react";
 import { useState } from "react";
 import SignupModal from "./Signup";
 import { useDispatch } from "react-redux";
-import { login, logout } from "../Redux/UserState";
+import { login } from "../Redux/UserState";
 import { toggleAdmin } from "../Redux/AdminState";
 
 export default function LoginSignup({ loginOpen, setLoginOpen }) {
@@ -43,17 +43,12 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
       if (!data.user) {
         throw new Error("Invalid user data received.");
       }
+      
       dispatch(login(data.user));
 
       if (data.user.isAdmin === "true") {
         dispatch(toggleAdmin());
       }
-      
-      // Auto-logout when token expires (30 days)
-      const expiresIn = 30 * 24 * 60 * 60 * 1000; // 30 days in ms
-      setTimeout(() => {
-        dispatch(logout()); // Clear Redux state
-      }, expiresIn);
       
       setLoginOpen(false);
     } catch (err) {
