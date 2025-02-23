@@ -3,8 +3,8 @@ import { Modal } from "flowbite-react";
 import { useState } from "react";
 import SignupModal from "./Signup";
 import { useDispatch } from "react-redux";
-import { login } from "../Redux/UserState";
-import { toggleAdmin } from '../Redux/AdminState'
+import { login, logout } from "../Redux/UserState";
+import { toggleAdmin } from "../Redux/AdminState";
 
 export default function LoginSignup({ loginOpen, setLoginOpen }) {
   const [isSignup, setIsSignup] = useState(false);
@@ -39,16 +39,22 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
       if (!response.ok) {
         throw new Error(data.message || "Login failed");
       }
-      
+
       if (!data.user) {
         throw new Error("Invalid user data received.");
       }
       dispatch(login(data.user));
-      
-      
-      if(data.user.isAdmin === "true") {
-        dispatch(toggleAdmin())
+
+      if (data.user.isAdmin === "true") {
+        dispatch(toggleAdmin());
       }
+      
+      // Auto-logout when token expires (30 days)
+      const expiresIn = 30 * 24 * 60 * 60 * 1000; // 30 days in ms
+      setTimeout(() => {
+        dispatch(logout()); // Clear Redux state
+      }, expiresIn);
+      
       setLoginOpen(false);
     } catch (err) {
       setError(err.message);
@@ -115,7 +121,9 @@ export default function LoginSignup({ loginOpen, setLoginOpen }) {
                     type="submit"
                     disabled={loading}
                     className="py-1 px-8 bg-yellow-300 hover:bg-yellow-400 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg cursor-pointer select-none"
-                  >{loading? "Loading..." : "Login"}</button>
+                  >
+                    {loading ? "Loading..." : "Login"}
+                  </button>
 
                   {/* Toggle to Signup */}
                   <p

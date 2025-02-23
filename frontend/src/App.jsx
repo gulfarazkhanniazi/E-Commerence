@@ -10,7 +10,7 @@ import Blog from "./components/Blog";
 import Blogs from "./pages/Blogs";
 import {Toaster} from 'react-hot-toast'
 import ShoppindItem from "./components/ShoppingItem";
-import CartItems from "./components/CartItems";
+import CartItems from "./pages/CartItems";
 // import { useSelector } from "react-redux";
 
 // Styled 404 Page
