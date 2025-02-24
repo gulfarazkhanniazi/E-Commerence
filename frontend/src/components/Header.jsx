@@ -5,7 +5,6 @@ import { useState } from "react";
 import LoginSignup from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../Redux/UserState";
-import { toggleAdmin } from '../Redux/AdminState'
 import { HiCog, HiLogout, HiViewGrid } from "react-icons/hi";
 
 export default function Navbaar() {
@@ -13,7 +12,6 @@ export default function Navbaar() {
   const [loginOpen, setLoginOpen] = useState(false);
 
   const currentUser = useSelector((state) => state.user); // Get user authentication state
-  const isAdmin = useSelector((state) => state.isAdmin); // Check if user is admin
   const dispatch = useDispatch(); // Get dispatch function for user actions
 
   const handleOnLogout = async () => {
@@ -27,9 +25,6 @@ export default function Navbaar() {
         throw new Error("Logout failed");
       }
 
-      if(isAdmin?.isAdmin === true) {
-        dispatch(toggleAdmin()); // Clear admin status from Redux state
-      }
       dispatch(logout()); // Clear user from Redux state
     } catch (error) {
       console.error("Logout error:", error.message);
@@ -138,7 +133,7 @@ export default function Navbaar() {
             <span className="block text-sm">{currentUser?.user?.email}</span>
           </Dropdown.Header>
           {
-            isAdmin?.isAdmin === true && (
+            currentUser?.user?.isAdmin === "true" && (
               <Dropdown.Item icon={HiCog} className="text-gray-200 hover:text-gray-800">Admin Panel</Dropdown.Item>
             )
           }

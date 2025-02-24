@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./UserState";
-import adminReducer from "./AdminState";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Uses localStorage by default
 import { combineReducers } from "redux";
@@ -8,7 +7,6 @@ import { combineReducers } from "redux";
 // Combine reducers (in case you add more in the future)
 const rootReducer = combineReducers({
   user: userReducer, // User authentication state
-  isAdmin: adminReducer, // Admin authentication state
 });
 
 // Configure Redux Persist
